@@ -1,10 +1,11 @@
 # Jogo que verifica se número do jogador é igual ao número secreto
 
-def da_boa_vindas
+def da_boa_vindas pontuacao
   puts "JOGO DE ADIVINHAÇÃO"
   puts "Digite seu nome:\n"
   nome_jogador = gets.capitalize!
   puts "Começando o jogo para você: #{nome_jogador} \n"
+  puts "Você tem #{pontuacao} pontos. A cada erro você perde 200 pontos. Boa sorte!\n"
 end
 
 def sorteia_numero_secreto
@@ -34,9 +35,9 @@ def verifica_se_acertou numero_sorteado, chute_do_jogador, pontuacao
   end
 end
 
-da_boa_vindas
-numero_secreto = sorteia_numero_secreto
 pontuacao = 1000
+da_boa_vindas pontuacao
+numero_secreto = sorteia_numero_secreto
 numero_de_jogadas = 5
 chutes_antigos = []
 
@@ -45,12 +46,8 @@ for jogada in 1..numero_de_jogadas
   chute = pede_um_numero jogada
   chutes_antigos.append(chute)
   verdadeiro_para_acerto, pontuacao = verifica_se_acertou numero_secreto, chute, pontuacao
-
-  if verdadeiro_para_acerto
-    puts "Pontos: #{pontuacao}"
-    break
-  end
-
+  break if verdadeiro_para_acerto
   puts "Chutes: #{chutes_antigos.to_s}"
 
 end
+puts "Pontos finais: #{pontuacao}"
