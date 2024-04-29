@@ -18,31 +18,38 @@ def pede_um_numero numero_da_jogada
   return chute
 end
 
-def verifica_se_acertou numero_sorteado, chute_do_jogador
- acertou = numero_sorteado == chute_do_jogador
+def verifica_se_acertou numero_sorteado, chute_do_jogador, pontuacao
+  acertou = numero_sorteado == chute_do_jogador
   maior = numero_sorteado > chute_do_jogador
 
   if acertou
     puts "Parabens! Você acertou!"
-    return true
+    return true, pontuacao
   else
+    pontuacao -= 200
     puts "Você errou!"
     puts "O número secreto é maior" if maior
     puts "O número secreto é menor" unless maior
-    return false
+    return false, pontuacao
   end
 end
 
 da_boa_vindas
 numero_secreto = sorteia_numero_secreto
+pontuacao = 1000
 numero_de_jogadas = 5
 chutes_antigos = []
+
 for jogada in 1..numero_de_jogadas
 
   chute = pede_um_numero jogada
   chutes_antigos.append(chute)
+  verdadeiro_para_acerto, pontuacao = verifica_se_acertou numero_secreto, chute, pontuacao
 
-  break if verifica_se_acertou numero_secreto, chute
+  if verdadeiro_para_acerto
+    puts "Pontos: #{pontuacao}"
+    break
+  end
 
   puts "Chutes: #{chutes_antigos.to_s}"
 
