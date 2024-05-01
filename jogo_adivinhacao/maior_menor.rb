@@ -8,8 +8,26 @@ def da_boa_vindas pontuacao
   puts "Você tem #{pontuacao} pontos. A cada erro você perde 200 pontos. Boa sorte!\n"
 end
 
-def sorteia_numero_secreto
-  numero_secreto_sorteado = 175
+def pede_dificuldade
+  puts "Qual o nível de dificuldade:\n1 - Fácil (Números: 1-50)\n2 - Médio (Números: 1-100)\n3 - Dificil (Números: 1-150)"
+  nivel_de_dificuldade = gets.to_i
+  return nivel_de_dificuldade
+end
+
+def sorteia_numero_secreto nivel_de_dificuldade
+  facil = nivel_de_dificuldade  == 1
+  medio = nivel_de_dificuldade  == 2
+  dificil = nivel_de_dificuldade  == 3
+  if facil
+    valor_maximo = 50
+  elsif medio
+    valor_maximo = 100
+  elsif dificil
+    valor_maximo = 150
+  else
+    valor_maximo = 200
+  end
+  numero_secreto_sorteado = rand(valor_maximo)
   return numero_secreto_sorteado
 end
 
@@ -37,7 +55,8 @@ end
 
 pontuacao = 1000
 da_boa_vindas pontuacao
-numero_secreto = sorteia_numero_secreto
+nivel_de_dificuldade = pede_dificuldade
+numero_secreto = sorteia_numero_secreto nivel_de_dificuldade
 numero_de_jogadas = 5
 chutes_antigos = []
 
