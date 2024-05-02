@@ -4,7 +4,7 @@ def da_boa_vindas
   puts "JOGO DE ADIVINHAÇÃO"
   puts "Digite seu nome:\n"
   nome_jogador = gets.capitalize!
-  puts "Começando o jogo para você: #{nome_jogador} \n"
+  puts "Começando o jogo para você: #{nome_jogador}"
 end
 
 def pontuacao_inicial pontuacao
@@ -64,7 +64,6 @@ def quer_jogar_novamente quer_jogar
     quer_jogar = true
   else
     quer_jogar = false
-    puts "entrei no false"
   end
   return quer_jogar
 end

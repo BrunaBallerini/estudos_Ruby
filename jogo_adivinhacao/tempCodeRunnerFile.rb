@@ -1,1 +1,0 @@
-  puts "Pontos finais: #{pontuacao}"
