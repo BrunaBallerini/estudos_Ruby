@@ -55,14 +55,17 @@ def verifica_se_acertou array_formando_palavra, acertou_letra, palavra_secreta, 
   end
 return array_formando_palavra, acertou_letra
 end
-
 array_formando_palavra = ["*", "*", "*", "*", "*", "*"]
 acertou_letra = false
 palavra_secreta = "estudo"
 letra_chute = "t"
 pontuacao = 0
 array, acerto = verifica_se_acertou array_formando_palavra, acertou_letra, palavra_secreta, letra_chute, pontuacao
-
 puts "array: #{array}"
 puts "acerto: #{acerto}"
+puts "=============================="
+frase = "alguma coisa que tenha a"
+letra = "a"
+contador = frase.count letra
+puts contador
 puts "=============================="

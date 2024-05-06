@@ -46,10 +46,18 @@ while quer_jogar
   pontuacao_inicial pontuacao
   palavra_secreta = define_palavra_secreta
   array_formando_palavra = [simbolo] * palavra_secreta.size
+  array_chutes_errados = []
 
   while !enforcou && !acertou
     acertou_letra = false
     letra_chute = pede_um_letra
+    ja_tentou_essa_letra_errou = array_chutes_errados.include?(letra_chute)
+    ja_tentou_essa_letra_acertou = array_formando_palavra.include?(letra_chute)
+
+    if ja_tentou_essa_letra_errou || ja_tentou_essa_letra_acertou
+      puts "Você já tentou essa letra."
+      next
+    end
 
     contador = 0
     palavra_secreta.each_char do |letra|
@@ -64,11 +72,13 @@ while quer_jogar
 
     if !acertou_letra
       erros += 1
+      array_chutes_errados.append(letra_chute)
       puts "Você errou a letra. Tente novamente"
     end
 
-    puts "Array: #{array_formando_palavra}"
+    puts "Palavra: #{array_formando_palavra}"
     puts "Erros: #{erros}"
+    puts "Chutes errados #{array_chutes_errados}"
 
     if !array_formando_palavra.include?(simbolo)
       acertou = true
