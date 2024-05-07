@@ -1,5 +1,8 @@
 def define_palavra_secreta
-  palavra_secreta = "porcaria"
+  string_palavras = File.read("jogo_forca/dicionario.txt")
+  array_palavras = string_palavras.split "\n"
+  numero = rand(array_palavras.size)
+  palavra_secreta = array_palavras[numero]
   mostra_tamanho_palavra_secreta palavra_secreta
   return palavra_secreta
 end
