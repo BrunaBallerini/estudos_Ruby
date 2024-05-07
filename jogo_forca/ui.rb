@@ -3,6 +3,7 @@ def da_boa_vindas
   puts "Digite seu nome:\n"
   nome_jogador = gets.capitalize.chomp
   puts "Começando o jogo para você: #{nome_jogador}"
+  return nome_jogador
 end
 
 def pontuacao_inicial pontuacao
@@ -52,4 +53,8 @@ end
 
 def informa_que_perdeu pontuacao
   puts "Não conseguiu! Pontuação #{pontuacao}"
+end
+
+def mostra_campeao_atua dados
+  puts "Nosso campeão atual é #{dados[0]} com #{dados[1]} pontos."
 end

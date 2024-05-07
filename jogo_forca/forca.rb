@@ -1,8 +1,12 @@
 def define_palavra_secreta
-  string_palavras = File.read("jogo_forca/dicionario.txt")
-  array_palavras = string_palavras.split "\n"
-  numero = rand(array_palavras.size)
-  palavra_secreta = array_palavras[numero]
+  arquivo = File.new("jogo_forca/dicionario.txt")
+  quantidade_de_palavras = arquivo.gets.to_i
+  numero = rand(quantidade_de_palavras)
+  for _ in (1..numero-1)
+    arquivo.gets
+  end
+  palavra_secreta = arquivo.gets.strip.downcase
+  arquivo.close
   mostra_tamanho_palavra_secreta palavra_secreta
   return palavra_secreta
 end

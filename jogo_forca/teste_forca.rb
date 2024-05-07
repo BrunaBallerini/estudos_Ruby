@@ -69,3 +69,26 @@ letra = "a"
 contador = frase.count letra
 puts contador
 puts "=============================="
+def define_palavra_secreta
+  string_palavras = File.read("jogo_forca/dicionario.txt")
+  array_palavras = string_palavras.split "\n"
+  numero = rand(array_palavras.size)
+  palavra_secreta = array_palavras[numero].downcase
+  return palavra_secreta
+end
+palavra = define_palavra_secreta
+puts palavra
+puts "=============================="
+def define_palavra_secreta
+  arquivo = File.new("jogo_forca/dicionario.txt")
+  quantidade_de_palavras = arquivo.gets.to_i
+  numero = rand(quantidade_de_palavras)
+  for _ in (1..numero-1)
+    arquivo.gets
+  end
+  palavra_secreta = arquivo.gets.downcase
+  arquivo.close
+  puts palavra_secreta
+end
+define_palavra_secreta
+puts "=============================="
