@@ -16,80 +16,66 @@ def acha_heroi mapa
   return linha_heroi, coluna_heroi
 end
 
-def movimenta_para_cima mapa, direcao, linha_heroi, coluna_heroi
-  puts "ANTES: linha_heroi = #{linha_heroi}, coluna_heroi = #{coluna_heroi}"
+def posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_depois_movimento
+  obstaculo = "X"
+  encontrar_caractere_x = mapa[linha_depois_movimento][coluna_depois_movimento] == obstaculo
+  if encontrar_caractere_x
+    return false
+  end
+
+  chegar_na_borda_mapa_direita = coluna_depois_movimento == mapa[linha_antes_movimento].size
+  if chegar_na_borda_mapa_direita
+    return false
+  end
+
+  chegar_na_borda_mapa_esquerda = coluna_depois_movimento == -1
+  if chegar_na_borda_mapa_esquerda
+    return false
+  end
+  return true
+end
+
+def movimenta_heroi linha_heroi, coluna_heroi, direcao, mapa
+  heroi = "H"
+  vazio = " "
+
   linha_antes_movimento = linha_heroi
-  linha_heroi -= 1
-  linha_depois_movimento = linha_heroi
-  mapa[linha_depois_movimento][coluna_heroi] = "H"
-  mapa[linha_antes_movimento][coluna_heroi] = "|"
-  puts "DEPOIS: linha_heroi = #{linha_heroi}, coluna_heroi = #{coluna_heroi}"
-
-  return mapa
-end
-
-def movimenta_para_baixo mapa, direcao, linha_heroi, coluna_heroi
-  puts "ANTES: linha_heroi = #{linha_heroi}, coluna_heroi = #{coluna_heroi}"
-  linha_antes_movimento = linha_heroi
-  linha_heroi += 1
-  linha_depois_movimento = linha_heroi
-  mapa[linha_depois_movimento][coluna_heroi] = "H"
-  mapa[linha_antes_movimento][coluna_heroi] = "|"
-  puts "DEPOIS: linha_heroi = #{linha_heroi}, coluna_heroi = #{coluna_heroi}"
-
-  return mapa
-end
-
-def movimenta_para_direita mapa, direcao, linha_heroi, coluna_heroi
-  puts "ANTES: linha_heroi = #{linha_heroi}, coluna_heroi = #{coluna_heroi}"
   coluna_antes_movimento = coluna_heroi
-  coluna_heroi += 1
+
+  case
+    when direcao == "w"
+      linha_heroi -= 1
+    when direcao == "s"
+      linha_heroi += 1
+    when  direcao == "d"
+      coluna_heroi += 1
+    when direcao == "a"
+      coluna_heroi -= 1
+    else
+      puts "Direção inválida"
+      return
+  end
   coluna_depois_movimento = coluna_heroi
-  mapa[linha_heroi][coluna_depois_movimento] = "H"
-  mapa[linha_heroi][coluna_antes_movimento] = "-"
-  puts "DEPOIS: linha_heroi = #{linha_heroi}, coluna_heroi = #{coluna_heroi}"
+  linha_depois_movimento = linha_heroi
 
-  return mapa
+  if !posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_depois_movimento
+    return
+  end
+
+  mapa[linha_depois_movimento][coluna_depois_movimento] = heroi
+  mapa[linha_antes_movimento][coluna_antes_movimento] = vazio
+
 end
-
-def movimenta_para_esquerda mapa, direcao, linha_heroi, coluna_heroi
-  puts "ANTES: linha_heroi = #{linha_heroi}, coluna_heroi = #{coluna_heroi}"
-  coluna_antes_movimento = coluna_heroi
-  coluna_heroi -= 1
-  coluna_depois_movimento = coluna_heroi
-  mapa[linha_heroi][coluna_depois_movimento] = "H"
-  mapa[linha_heroi][coluna_antes_movimento] = "-"
-  puts "DEPOIS: linha_heroi = #{linha_heroi}, coluna_heroi = #{coluna_heroi}"
-
-  return mapa
-end
-
 
 def joga nome
   numero = 1
   mapa = le_mapa numero
   while true
+
     desenha mapa
     direcao = pede_movimento
-    puts "direcao = #{direcao}"
-
     linha_heroi, coluna_heroi = acha_heroi mapa
-
-    if direcao == "w"
-      movimenta_para_cima mapa, direcao, linha_heroi, coluna_heroi
-    end
-
-    if direcao == "s"
-      movimenta_para_baixo mapa, direcao, linha_heroi, coluna_heroi
-    end
-
-    if direcao == "d"
-      movimenta_para_direita mapa, direcao, linha_heroi, coluna_heroi
-    end
-
-    if direcao == "a"
-      movimenta_para_esquerda mapa, direcao, linha_heroi, coluna_heroi
-    end
+    movimenta_heroi linha_heroi, coluna_heroi, direcao, mapa
 
   end
 end
