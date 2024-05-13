@@ -92,6 +92,10 @@ def movimenta_fantasma mapa, linha, coluna
   coluna_depois_movimento = coluna
   linha_depois_movimento = linha
 
+  if !posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_depois_movimento
+    return
+  end
+
   mapa[linha_depois_movimento][coluna_depois_movimento] = fantasma
   mapa[linha_antes_movimento][coluna_antes_movimento] = vazio
 
@@ -99,7 +103,7 @@ def movimenta_fantasma mapa, linha, coluna
 end
 
 def joga nome
-  numero = 1
+  numero = 2
   mapa = le_mapa numero
   while true
 

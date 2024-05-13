@@ -3,6 +3,11 @@ palavra.each_char.with_index do |letra, index|
   puts "#{index} - #{letra}"
 end
 puts "=============================="
+palavra = "outro_estudo"
+palavra.chars.each_with_index do |letra, index|
+  puts "#{index} - #{letra}"
+end
+puts "=============================="
 linha_mapa = ["X H X", "X   H"]
 indice = linha_mapa[1].index "H"
 puts indice
