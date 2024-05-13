@@ -23,6 +23,12 @@ def posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_
     return false
   end
 
+  fantasma = "F"
+  encontrar_fantasma = mapa[linha_depois_movimento][coluna_depois_movimento] == fantasma
+  if encontrar_fantasma
+    return false
+  end
+
   chegar_na_borda_mapa_direita = coluna_depois_movimento == mapa[linha_antes_movimento].size
   if chegar_na_borda_mapa_direita
     return false
