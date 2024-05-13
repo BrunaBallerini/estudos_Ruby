@@ -67,6 +67,37 @@ def movimenta_heroi linha_heroi, coluna_heroi, direcao, mapa
 
 end
 
+def acha_movimenta_fantasma mapa
+  caractere_fantasma = "F"
+  mapa.each_with_index do |linha_atual, linha|
+    linha_atual.each_char.with_index do |caractere_atual, coluna|
+      if caractere_fantasma == caractere_atual
+          puts "#{caractere_fantasma} = #{linha} - #{coluna}"
+          movimenta_fantasma mapa, linha, coluna
+      end
+    end
+  end
+end
+
+def movimenta_fantasma mapa, linha, coluna
+  fantasma = "F"
+  vazio = " "
+
+  linha_antes_movimento = linha
+  coluna_antes_movimento = coluna
+
+  coluna += 1
+  linha += 0
+
+  coluna_depois_movimento = coluna
+  linha_depois_movimento = linha
+
+  mapa[linha_depois_movimento][coluna_depois_movimento] = fantasma
+  mapa[linha_antes_movimento][coluna_antes_movimento] = vazio
+
+
+end
+
 def joga nome
   numero = 1
   mapa = le_mapa numero
@@ -76,6 +107,7 @@ def joga nome
     direcao = pede_movimento
     linha_heroi, coluna_heroi = acha_heroi mapa
     movimenta_heroi linha_heroi, coluna_heroi, direcao, mapa
+    acha_movimenta_fantasma mapa
 
   end
 end
