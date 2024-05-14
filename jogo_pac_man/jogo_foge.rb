@@ -71,8 +71,14 @@ def movimenta_heroi direcao, mapa
   end
 end
 
+def copia_mapa mapa
+  novo_mapa = mapa.join("\n").tr("F", " ").split("\n")
+  return novo_mapa
+end
+
 def movimenta_fantasma mapa
   fantasma = "F"
+  novo_mapa = copia_mapa mapa
   mapa.each_with_index do |linha_atual, linha_index|
     linha_atual.each_char.with_index do |caractere_atual, coluna_index|
       encontrou_fantasma = caractere_atual == fantasma
@@ -80,25 +86,26 @@ def movimenta_fantasma mapa
         direcoes_possiveis = []
 
         cima = [linha_index - 1, coluna_index]
-        direcoes_possiveis << cima  if posicao_valida?(mapa, linha_index - 1, coluna_index)
+        direcoes_possiveis << cima  if posicao_valida?(mapa, linha_index - 1, coluna_index) && posicao_valida?(novo_mapa, linha_index - 1, coluna_index)
 
         baixo = [linha_index + 1, coluna_index]
-        direcoes_possiveis << baixo if posicao_valida?(mapa, linha_index + 1, coluna_index)
+        direcoes_possiveis << baixo if posicao_valida?(mapa, linha_index + 1, coluna_index) && posicao_valida?(novo_mapa, linha_index + 1, coluna_index)
 
         esquerda = [linha_index, coluna_index - 1]
-        direcoes_possiveis << esquerda if posicao_valida?(mapa, linha_index, coluna_index - 1)
+        direcoes_possiveis << esquerda if posicao_valida?(mapa, linha_index, coluna_index - 1) && posicao_valida?(novo_mapa, linha_index, coluna_index - 1)
 
         direita = [linha_index, coluna_index + 1]
-        direcoes_possiveis << direita if posicao_valida?(mapa, linha_index, coluna_index + 1)
+        direcoes_possiveis << direita if posicao_valida?(mapa, linha_index, coluna_index + 1) && posicao_valida?(novo_mapa, linha_index, coluna_index + 1)
 
         if direcoes_possiveis.any?
             nova_posicao = direcoes_possiveis.sample
             mapa[linha_index][coluna_index] = " "
-            mapa[nova_posicao[0]][nova_posicao[1]] = fantasma
+            novo_mapa[nova_posicao[0]][nova_posicao[1]] = fantasma
         end
       end
     end
   end
+  return novo_mapa
 end
 
 def joga nome
@@ -109,7 +116,7 @@ def joga nome
     desenha mapa
     direcao = pede_movimento
     movimenta_heroi direcao, mapa
-    movimenta_fantasma mapa
+    mapa = movimenta_fantasma mapa
 
   end
 end
