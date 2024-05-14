@@ -2,21 +2,25 @@ require_relative "ui"
 
 def acha_heroi mapa
   heroi = "H"
-  quantidade_linhas = mapa.size-1
-  for linha in 0..quantidade_linhas
-    quantidade_colunas = mapa[linha].size-1
-    for coluna in 0..quantidade_colunas
-      valor_da_posicao = mapa[linha][coluna]
-        if valor_da_posicao == heroi
-          linha_heroi = linha
-          coluna_heroi = coluna
-        end
+  mapa.each_with_index do |linha, linha_index|
+    coluna_index = linha.index(heroi)
+    if coluna_index
+      return linha_index, coluna_index
     end
   end
-  return linha_heroi, coluna_heroi
 end
 
-def posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_depois_movimento
+def posicao_valida? mapa, linha_depois_movimento, coluna_depois_movimento
+  chegar_na_borda_mapa_baixo = linha_depois_movimento == mapa.size
+  if chegar_na_borda_mapa_baixo
+    return false
+  end
+
+  chegar_na_borda_mapa_cima = linha_depois_movimento == -1
+  if chegar_na_borda_mapa_cima
+    return false
+  end
+
   obstaculo = "X"
   encontrar_caractere_x = mapa[linha_depois_movimento][coluna_depois_movimento] == obstaculo
   if encontrar_caractere_x
@@ -29,7 +33,7 @@ def posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_
     return false
   end
 
-  chegar_na_borda_mapa_direita = coluna_depois_movimento == mapa[linha_antes_movimento].size
+  chegar_na_borda_mapa_direita = coluna_depois_movimento == mapa[linha_depois_movimento].size
   if chegar_na_borda_mapa_direita
     return false
   end
@@ -41,71 +45,60 @@ def posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_
   return true
 end
 
-def movimenta_heroi linha_heroi, coluna_heroi, direcao, mapa
-  heroi = "H"
-  vazio = " "
+def movimenta_heroi direcao, mapa
+  linha_heroi, coluna_heroi = acha_heroi mapa
+  linha_nova, coluna_nova = linha_heroi, coluna_heroi
 
-  linha_antes_movimento = linha_heroi
-  coluna_antes_movimento = coluna_heroi
-
-  case
-    when direcao == "w"
-      linha_heroi -= 1
-    when direcao == "s"
-      linha_heroi += 1
-    when  direcao == "d"
-      coluna_heroi += 1
-    when direcao == "a"
-      coluna_heroi -= 1
+  case direcao
+    when "w"
+      linha_nova -= 1
+    when "s"
+      linha_nova += 1
+    when "d"
+      coluna_nova += 1
+    when "a"
+      coluna_nova -= 1
     else
       puts "Direção inválida"
       return
+    end
+
+  heroi = "H"
+  vazio = " "
+  if posicao_valida? mapa, linha_nova, coluna_nova
+    mapa[linha_nova][coluna_nova] = heroi
+    mapa[linha_heroi][coluna_heroi] = vazio
   end
-  coluna_depois_movimento = coluna_heroi
-  linha_depois_movimento = linha_heroi
-
-  if !posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_depois_movimento
-    return
-  end
-
-  mapa[linha_depois_movimento][coluna_depois_movimento] = heroi
-  mapa[linha_antes_movimento][coluna_antes_movimento] = vazio
-
 end
 
-def acha_movimenta_fantasma mapa
-  caractere_fantasma = "F"
-  mapa.each_with_index do |linha_atual, linha|
-    linha_atual.each_char.with_index do |caractere_atual, coluna|
-      if caractere_fantasma == caractere_atual
-          puts "#{caractere_fantasma} = #{linha} - #{coluna}"
-          movimenta_fantasma mapa, linha, coluna
+def movimenta_fantasma mapa
+  fantasma = "F"
+  mapa.each_with_index do |linha_atual, linha_index|
+    linha_atual.each_char.with_index do |caractere_atual, coluna_index|
+      encontrou_fantasma = caractere_atual == fantasma
+      if encontrou_fantasma
+        direcoes_possiveis = []
+
+        cima = [linha_index - 1, coluna_index]
+        direcoes_possiveis << cima  if posicao_valida?(mapa, linha_index - 1, coluna_index)
+
+        baixo = [linha_index + 1, coluna_index]
+        direcoes_possiveis << baixo if posicao_valida?(mapa, linha_index + 1, coluna_index)
+
+        esquerda = [linha_index, coluna_index - 1]
+        direcoes_possiveis << esquerda if posicao_valida?(mapa, linha_index, coluna_index - 1)
+
+        direita = [linha_index, coluna_index + 1]
+        direcoes_possiveis << direita if posicao_valida?(mapa, linha_index, coluna_index + 1)
+
+        if direcoes_possiveis.any?
+            nova_posicao = direcoes_possiveis.sample
+            mapa[linha_index][coluna_index] = " "
+            mapa[nova_posicao[0]][nova_posicao[1]] = fantasma
+        end
       end
     end
   end
-end
-
-def movimenta_fantasma mapa, linha, coluna
-  fantasma = "F"
-  vazio = " "
-
-  linha_antes_movimento = linha
-  coluna_antes_movimento = coluna
-
-  coluna += 1
-  linha += 0
-
-  coluna_depois_movimento = coluna
-  linha_depois_movimento = linha
-
-  if !posicao_valida? mapa, linha_antes_movimento, linha_depois_movimento, coluna_depois_movimento
-    return
-  end
-
-  mapa[linha_depois_movimento][coluna_depois_movimento] = fantasma
-  mapa[linha_antes_movimento][coluna_antes_movimento] = vazio
-
-
 end
 
 def joga nome
@@ -115,9 +108,8 @@ def joga nome
 
     desenha mapa
     direcao = pede_movimento
-    linha_heroi, coluna_heroi = acha_heroi mapa
-    movimenta_heroi linha_heroi, coluna_heroi, direcao, mapa
-    acha_movimenta_fantasma mapa
+    movimenta_heroi direcao, mapa
+    movimenta_fantasma mapa
 
   end
 end
