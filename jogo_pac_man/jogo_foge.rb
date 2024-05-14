@@ -52,11 +52,15 @@ def movimenta_heroi direcao, mapa
   case direcao
     when "w"
       linha_nova -= 1
+      coluna_nova += 0
     when "s"
       linha_nova += 1
+      coluna_nova += 0
     when "d"
+      linha_nova += 0
       coluna_nova += 1
     when "a"
+      linha_nova += 0
       coluna_nova -= 1
     else
       puts "Direção inválida"
@@ -86,16 +90,20 @@ def movimenta_fantasma mapa
         direcoes_possiveis = []
 
         cima = [linha_index - 1, coluna_index]
-        direcoes_possiveis << cima  if posicao_valida?(mapa, linha_index - 1, coluna_index) && posicao_valida?(novo_mapa, linha_index - 1, coluna_index)
+        valido_cima = posicao_valida?(mapa, linha_index - 1, coluna_index) && posicao_valida?(novo_mapa, linha_index - 1, coluna_index)
+        direcoes_possiveis << cima  if valido_cima
 
         baixo = [linha_index + 1, coluna_index]
-        direcoes_possiveis << baixo if posicao_valida?(mapa, linha_index + 1, coluna_index) && posicao_valida?(novo_mapa, linha_index + 1, coluna_index)
+        valido_baixo = posicao_valida?(mapa, linha_index + 1, coluna_index) && posicao_valida?(novo_mapa, linha_index + 1, coluna_index)
+        direcoes_possiveis << baixo if valido_baixo
 
         esquerda = [linha_index, coluna_index - 1]
-        direcoes_possiveis << esquerda if posicao_valida?(mapa, linha_index, coluna_index - 1) && posicao_valida?(novo_mapa, linha_index, coluna_index - 1)
+        valido_esquerda = posicao_valida?(mapa, linha_index, coluna_index - 1) && posicao_valida?(novo_mapa, linha_index, coluna_index - 1)
+        direcoes_possiveis << esquerda if valido_esquerda
 
         direita = [linha_index, coluna_index + 1]
-        direcoes_possiveis << direita if posicao_valida?(mapa, linha_index, coluna_index + 1) && posicao_valida?(novo_mapa, linha_index, coluna_index + 1)
+        valido_direita = posicao_valida?(mapa, linha_index, coluna_index + 1) && posicao_valida?(novo_mapa, linha_index, coluna_index + 1)
+        direcoes_possiveis << direita if valido_direita
 
         if direcoes_possiveis.any?
             nova_posicao = direcoes_possiveis.sample
