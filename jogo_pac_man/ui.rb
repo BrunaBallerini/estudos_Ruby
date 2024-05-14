@@ -14,11 +14,18 @@ def le_mapa numero
 end
 
 def desenha mapa
+  puts
   puts mapa
+  puts
 end
 
 def pede_movimento
   puts "Para onde deseja ir?"
   movimento = gets.strip.downcase
   return movimento
+end
+
+def game_over
+  puts "Você perdeu!"
+  puts "GAME OVER!"
 end

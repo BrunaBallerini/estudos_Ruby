@@ -8,6 +8,7 @@ def acha_heroi mapa
       return linha_index, coluna_index
     end
   end
+  return nil
 end
 
 def posicao_valida? mapa, linha_depois_movimento, coluna_depois_movimento
@@ -119,12 +120,17 @@ end
 def joga nome
   numero = 2
   mapa = le_mapa numero
-  while true
+  jogando = true
+  while jogando
 
     desenha mapa
     direcao = pede_movimento
     movimenta_heroi direcao, mapa
     mapa = movimenta_fantasma mapa
+    if !acha_heroi mapa
+      game_over
+      jogando = false
+    end
 
   end
 end
