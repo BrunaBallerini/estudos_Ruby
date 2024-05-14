@@ -117,6 +117,11 @@ def movimenta_fantasma mapa
   return novo_mapa
 end
 
+def jogador_perdeu? mapa
+  jogador_perdeu = !acha_heroi(mapa)
+  return jogador_perdeu
+end
+
 def joga nome
   numero = 2
   mapa = le_mapa numero
@@ -127,7 +132,8 @@ def joga nome
     direcao = pede_movimento
     movimenta_heroi direcao, mapa
     mapa = movimenta_fantasma mapa
-    if !acha_heroi mapa
+
+    if jogador_perdeu? mapa
       game_over
       jogando = false
     end
