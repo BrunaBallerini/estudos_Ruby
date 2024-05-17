@@ -13,15 +13,23 @@ class Livro
     return @possui_reimpressao
   end
 
-  def calcula_preco (base)
-    if @ano_lancamento < 2000
-      base *= 0.7
-    end
-    return base
-  end
-
   def to_csv
     return "Titulo: #{@titulo} - #{@preco}"
+  end
+
+  private
+  def calcula_preco(base)
+    if @ano_lancamento < 2006
+        if @possui_reimpressao
+            return base * 0.9
+        else
+            return base * 0.95
+        end
+    elsif @ano_lancamento <=2010
+        return base * 0.96
+    else
+        return base
+    end
   end
 
 end
