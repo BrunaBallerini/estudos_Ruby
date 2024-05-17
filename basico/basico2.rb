@@ -1,9 +1,16 @@
 # Anotação
 # puts _____.kind_of? Array
+
+module Conversor
+  def string_para_alfanumerico(titulo)
+    titulo.gsub(/[^\w\s]/,'')
+  end
+end
+
 class Livro
   attr_reader :titulo, :preco, :ano_lancamento
   def initialize (titulo, preco, ano_lancamento,possui_reimpressao)
-    @titulo = titulo
+    @titulo = titulo.extend(Conversor).string_para_alfanumerico(titulo)
     @ano_lancamento = ano_lancamento
     @preco = calcula_preco(preco)
     @possui_reimpressao = possui_reimpressao
@@ -35,6 +42,7 @@ class Livro
 end
 
 class Estoque
+  attr_reader :maximo_necessario
   def initialize
     @livros = []
   end
@@ -42,45 +50,50 @@ class Estoque
   def livro_para_newsletter
     @livros.each do |livro|
       if livro.ano_lancamento < 2000
-        puts "Newsletter -> #{livro.titulo} -> R$ #{livro.preco} - #{livro.possui_reimpressao}"
+        puts "Newsletter"
+        puts livro.to_csv
       end
     end
   end
 
-  def imprime_nota_fiscal
+  def imprime_estoque
     @livros.each do |livro|
       puts livro.to_csv
     end
   end
 
-  def livros_mais_baratos_que(valor)
-    @livros.select {|livro| livro.preco <= valor}
-  end
-
-  def total
-    puts "Estoque total: #{@livros.size}"
+  def total_atual
+    puts "Estoque atual: #{@livros.size}"
   end
 
   def adiciona_livro (livro)
     @livros << livro if livro
+    if @maximo_necessario.nil? || @maximo_necessario < @livros.size
+      @maximo_necessario = @livros.size
+    end
+  end
+
+  def remove_livros(livro)
+    @livros.delete(livro)
+  end
+
+  def maximo_necessario
+    puts "Estoque máximo: #{@maximo_necessario}"
   end
 
 end
 
 livro_rails = Livro.new("Agile Web Development with Rails", 70.00,  1999, true)
 livro_ruby = Livro.new("Programming Ruby 1.9", 60.00, 2010, false)
+livro_programador = Livro.new("The Pragmatic Programmer", 100, 2015, true)
 
 estoque = Estoque.new
 estoque.adiciona_livro(livro_rails)
 estoque.adiciona_livro(livro_ruby)
-estoque.adiciona_livro(Livro.new("The Pragmatic Programmer", 100, 2015, true))
+estoque.adiciona_livro(livro_programador)
 
-estoque.imprime_nota_fiscal
+estoque.imprime_estoque
 estoque.livro_para_newsletter
-estoque.total
-
-barato = estoque.livros_mais_baratos_que(80)
-puts "Livros mais baratos que 80,00:"
-barato.each do |livro|
-  puts livro.titulo
-end
+estoque.remove_livros(livro_rails)
+estoque.total_atual
+estoque.maximo_necessario
