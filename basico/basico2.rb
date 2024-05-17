@@ -20,10 +20,13 @@ class Livro
     return base
   end
 
+  def to_csv
+    return "Titulo: #{@titulo} - #{@preco}"
+  end
+
 end
 
 class Estoque
-  attr_reader :livros
   def initialize
     @livros = []
   end
@@ -38,7 +41,7 @@ class Estoque
 
   def imprime_nota_fiscal
     @livros.each do |livro|
-      puts "Titulo: #{livro.titulo} - #{livro.preco}"
+      puts livro.to_csv
     end
   end
 
@@ -51,7 +54,7 @@ class Estoque
   end
 
   def adiciona_livro (livro)
-    @livros << livro
+    @livros << livro if livro
   end
 
 end
