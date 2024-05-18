@@ -22,6 +22,7 @@
 h = {"x": 15, "curso": "rails"}
 p h
 puts h[:x]
+puts h.class
 nome = "Bruna"
 puts nome.object_id
 puts "=============================="
@@ -31,3 +32,17 @@ puts a.object_id
 puts b.object_id
 puts a.object_id == b.object_id
 puts "=============================="
+puts "Digite o telefone:"
+telefone = gets.chomp
+
+regex =/^\(\d{2}\) 9\d{4}\-\d{4}$/
+
+escreve_em_verde = "\e[32m"
+escreve_em_vermelho = "\e[31m"
+reset = "\e[0m"
+
+if telefone =~ regex
+  puts "#{escreve_em_verde}#{telefone} válido#{reset}"
+else
+  puts "#{escreve_em_vermelho}#{telefone} inválido#{reset}"
+end

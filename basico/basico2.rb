@@ -1,5 +1,6 @@
 # Anotação
 # puts _____.kind_of? Array
+# puts _____.class
 
 module Conversor
   def string_para_alfanumerico(titulo)
@@ -96,15 +97,6 @@ class Estoque
   def quantidade_de_vendas_por(produto, &campo)
     @vendas.count { |venda| campo.call(venda) == campo.call(produto) }
    end
-  # def quantidade_vendas(produto)
-  #   @vendas.count {|venda| venda.titulo == produto.titulo}
-  #   # @vendas.each do |venda|
-  #   #   if venda.titulo == produto.titulo
-  #   #     quant = @vendas.count
-  #   #   end
-  #   #   return quant
-  #   # end
-  # end
 
   def livro_que_mais_vendeu_por_ano
     @vendas.sort {|v1,v2| quantidade_de_vendas_por(v1, &:ano_lancamento) <=> quantidade_de_vendas_por(v2, &:ano_lancamento)}.last
@@ -113,10 +105,6 @@ class Estoque
   def livro_que_mais_vendeu_por_titulo
     @vendas.sort {|v1,v2| quantidade_de_vendas_por(v1, &:titulo) <=> quantidade_de_vendas_por(v2, &:titulo)}.last
    end
-
-  # def livro_que_mais_vendeu_por_titulo
-  #   @vendas.sort {|v1,v2| quantidade_vendas(v1) <=> quantidade_vendas(v2)}.last
-  #  end
 
   def maximo_necessario
     puts "Estoque máximo: #{@maximo_necessario}"
