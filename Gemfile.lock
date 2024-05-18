@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    byebug (11.1.3)
+
+PLATFORMS
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  byebug (~> 11.1)
+
+RUBY VERSION
+   ruby 3.2.0p0
+
+BUNDLED WITH
+   2.5.9
