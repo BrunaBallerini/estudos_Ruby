@@ -56,3 +56,29 @@ ensure
   puts "Sempre passa no ensure."
 end
 puts "=============================="
+class Person
+  attr_accessor :name, :age
+
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+end
+
+person = Person.new("Alice", 30)
+puts person.inspect
+puts "=============================="
+arr = [
+  {nome: "bruna", idade: 36},
+  {nome: "marcelo", idade: 36},
+  {nome: "maria", idade: 27},
+]
+arr.find do |x|
+  if x[:nome] == "bruna"
+    puts x
+  end
+end
+puts arr.find { |x| x[:nome] == "bruna" }.inspect
+puts arr.find { |x| x[:nome].include? "marcelo" }.inspect
+puts arr.select { |x| x[:nome].downcase.include? "a" }.inspect
+puts "=============================="
