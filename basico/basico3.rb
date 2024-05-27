@@ -1,5 +1,10 @@
 require "byebug"
-
+puts "=============================="
+# require_relative "basico1"
+caminho_arquivo = File.expand_path(__FILE__)
+puts caminho_arquivo
+puts File.dirname(caminho_arquivo)
+puts "=============================="
 for i in 0..4 do
   puts i
 end
@@ -81,4 +86,38 @@ end
 puts arr.find { |x| x[:nome] == "bruna" }.inspect
 puts arr.find { |x| x[:nome].include? "marcelo" }.inspect
 puts arr.select { |x| x[:nome].downcase.include? "a" }.inspect
+puts "=============================="
+def funcao_com_parametros (*args)
+  # args.each do |args|
+  #   puts args.inspect
+  # end
+  args.each {|arg| puts arg.inspect }
+  puts args.inspect
+end
+funcao_com_parametros([1,2,3], "25")
+puts "=============================="
+def metodo_com_bloco
+  yield if block_given?
+end
+metodo_com_bloco
+metodo_com_bloco {
+  puts "Bloco 1"
+  puts "Bloco 2"
+}
+metodo_com_bloco do
+  puts "Bloco 3"
+end
+puts "=============================="
+def number_generator(n)
+  (0...n).each do |i|
+    puts "Antes yield"
+    yield i
+    puts "Depois yield"
+  end
+end
+number_generator(3) do |num|
+  puts "Antes do puts num"
+    puts num
+    puts "Depois do puts num"
+end
 puts "=============================="
