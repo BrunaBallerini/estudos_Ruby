@@ -94,8 +94,8 @@ class Estoque
     end
   end
 
-  def quantidade_de_vendas_por(produto, &campo)
-    @vendas.count { |venda| campo.call(venda) == campo.call(produto) }
+  def quantidade_de_vendas_por(product, &campo)
+    @vendas.count { |venda| campo.call(venda) == campo.call(product) }
    end
 
   def livro_que_mais_vendeu_por_ano

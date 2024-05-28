@@ -1,4 +1,4 @@
-def menu_initiaze(produtos = [])
+def menu_initiaze(products)
     loop do
     yellow_message("Escolha uma das opções abaixo:\n", false, false)
     blue_message("Opção 1 - Cadastro de produtos", false, false)
@@ -10,18 +10,17 @@ def menu_initiaze(produtos = [])
 
     case opcao
     when 1
-      mensage "CADASTRO DE PRODUTOS"
-      product_registration(produtos)
+      product_registration(products)
     when 2
-      mensage "LISTA DE PRODUTOS"
+      product_list(products)
     when 3
-      mensage "RETIRADA DO ESTOQUE"
+      removing_product(products)
     when 4
-      mensage "SAIR"
+      green_message("Saindo do programa.")
       clean_screen
       exit
     else
-      mensage "OPÇÃO INVÁLIDA"
+      red_message("Opção inválida!")
     end
 
   end
