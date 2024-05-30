@@ -164,3 +164,36 @@ puts p.para_sobrescrever("Wagner", "Bruno", "Lena")
 # puts p.mostra_nome_completo_private
 
 puts "=============================="
+
+class Carro
+  attr_accessor :id, :nome, :descricao
+
+  def andar
+      puts "O carro #{nome} está andando!"
+  end
+
+  def nome_preenchido?
+    return self.nome != '' && self.nome != nil
+  end
+
+  def nome_maiusculo
+    return self.nome.upcase if self.nome_preenchido?
+    return nil
+  end
+
+  def nome_maiusculo!
+    self.nome = self.nome.upcase if self.nome_preenchido?
+    return self.nome
+  end
+end
+
+a = Carro.new
+a.andar
+puts a.nome_preenchido?
+a.nome = "Sportage"
+puts a.nome_preenchido?
+puts a.nome
+a.nome_maiusculo!
+puts a.nome
+
+puts "=============================="
