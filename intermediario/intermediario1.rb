@@ -252,29 +252,29 @@
 # puts "=============================="
 
 # # Singleton -> classe que cria uma instancia somente
-# class Email
-#   attr_accessor :to, :from, :subject, :body
+class Email
+  attr_accessor :to, :from, :subject, :body
 
-#   def send
-#     # TODA A IMPLEMTAÇÃO DA GEM DE ENVIO DE EMAIL
-#     puts "Estou enviando o email para #{to} ... "
-#   end
+  def send
+    # TODA A IMPLEMTAÇÃO DA GEM DE ENVIO DE EMAIL
+    puts "Estou enviando o email para #{to} ... "
+  end
 
-#   private_class_method :new
-#   def self.instancia
-#     @@instancia ||= self.new # equivale a: @@instancia = self.new if @@instancia == nil
-#     return @@instancia
-#   end
-# end
+  private_class_method :new
+  def self.instancia
+    @@instancia ||= self.new # equivale a: @@instancia = self.new if @@instancia == nil
+    return @@instancia
+  end
+end
 
-# email = Email.instancia
-# email.to = "teste@teste.com"
-# email.send
-# puts email
+email = Email.instancia
+email.to = "teste@teste.com"
+email.send
+puts email
 
-# Email.instancia.to = "testes@teste.com"
-# Email.instancia.send
-# puts Email.instancia
+Email.instancia.to = "testes@teste.com"
+Email.instancia.send
+puts Email.instancia
 
 # class Pessoa
 #   def nome
